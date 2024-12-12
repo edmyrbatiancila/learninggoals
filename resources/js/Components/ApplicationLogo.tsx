@@ -1,10 +1,11 @@
-import { SVGAttributes } from 'react';
 
-export default function ApplicationLogo(props: SVGAttributes<SVGElement>) {
+
+export default function ApplicationLogo() {
     return (
         <img
-            className='h-40 w-50'
-            src='./img/logo-learning-goals.png'
+            className="h-20 w-30"
+            src='/img/logo-learning-goals.png'
+            alt='Logo'
         />
     
     );
