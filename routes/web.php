@@ -15,8 +15,7 @@ Route::get('/', function () {
     ]);
 });
 
-// new route added:
-Route::get('/learning', [CourseController::class, 'index'])->name('learning.index');
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -26,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // new route added:
+    Route::get('/learning', [CourseController::class, 'index'])->name('learning.index');
+    Route::get('/course/create', [CourseController::class, 'create'])->name('learning.create');
 });
 
 require __DIR__.'/auth.php';

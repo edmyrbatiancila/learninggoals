@@ -1,4 +1,15 @@
+import { router } from "@inertiajs/react";
+
 const Navbar = () => {
+
+    const routeHomePage = () => {
+        router.visit('/');
+    }
+
+    const routeDashboard = () => {
+        router.visit('/dashboard');
+    }
+
     return(
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -20,8 +31,8 @@ const Navbar = () => {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a>Homepage</a></li>
-                        <li><a>Portfolio</a></li>
+                        <li onClick={ routeHomePage }><a>Homepage</a></li>
+                        <li onClick={ routeDashboard }><a>Dashboard</a></li>
                         <li><a>About</a></li>
                     </ul>
                 </div>

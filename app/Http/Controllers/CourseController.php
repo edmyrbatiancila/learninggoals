@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Course;
 
 class CourseController extends Controller
 {
@@ -27,7 +28,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Learnings/Create');
     }
 
     /**
