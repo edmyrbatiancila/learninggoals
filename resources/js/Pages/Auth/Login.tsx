@@ -38,7 +38,11 @@ export default function Login({
                 </div>
             )}
 
-            <form onSubmit={submit}>
+            <form 
+                onSubmit={submit}
+                className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
+            >
+                <p className="text-center text-lg font-medium">Sign in to your account</p>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
 
@@ -91,14 +95,14 @@ export default function Login({
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md text-sm underline hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Forgot your password?
                         </Link>
                     )}
 
                     <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
+                        Sign In
                     </PrimaryButton>
                 </div>
             </form>
