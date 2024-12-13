@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Course;
 
 class CourseController extends Controller
 {
@@ -28,6 +28,7 @@ class CourseController extends Controller
      */
     public function create()
     {
+        $course = Course::latest()->where('user_id', auth()->id());
         return Inertia::render('Learnings/Create');
     }
 
@@ -36,9 +37,27 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'title'         => 'required|string|max:255',
+            'url'           => 'required|url',
+            'platform'      => 'required|string',
+            'category'      => 'required|string',
+            'description'   => 'required|string'
+        ]);
 
+        $course = new Course([
+            'user_id'       => auth()->id(),
+            'title'         => $validated['title'],
+            'url'           => $validated['url'],
+            'platform'      => $validated['platform'],
+            'category'      => $validated['category'],
+            'description'   => $validated['description']
+        ]);
+
+        $course->save();
+
+        return redirect()->route('learning.index')->with('success', 'Course created successfully!');
+    }
     /**
      * Display the specified resource.
      */

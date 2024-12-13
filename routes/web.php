@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     // new route added:
     Route::get('/learning', [CourseController::class, 'index'])->name('learning.index');
     Route::get('/course/create', [CourseController::class, 'create'])->name('learning.create');
+    Route::post('/course', [CourseController::class, 'store'])->name('learning.store');
 });
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Head, router } from "@inertiajs/react";
-import Navbar from '@/Components/Learning/Navbar';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 
 interface Props {
@@ -15,21 +15,37 @@ const Index: React.FC<Props> = ({ hasCourse }) => {
     }
 
     return (
-        <>
-            <Navbar />
-            <main className='flex flex-col text-center py-10'>
-                <Head title='Learning' />
-            {!hasCourse && (
-                <button 
-                    onClick={ handleCreateCourse } 
-                    className="btn btn-active btn-secondary"
-                >
-                    Create New Course
-                </button>
-            )
+        <AuthenticatedLayout
+            header={
+                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    Learning
+                </h2>
             }
-            </main>
-        </>
+        >
+            <Head title='Learning' />
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900 text-center">
+                        {!hasCourse && (
+                            <>
+                                <h1 className='text-xl py-10 m-5 font-bold'>You don't have any course enrolled yet!</h1>
+                                <button 
+                                    onClick={ handleCreateCourse } 
+                                    className="btn btn-active btn-secondary"
+                                >
+                                    Create New Course
+                                </button>
+                            </>
+                            
+                        )
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AuthenticatedLayout>
         
     )
 }
