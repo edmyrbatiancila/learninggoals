@@ -18,8 +18,12 @@ class CourseController extends Controller
 
         $hasCourse = $user->courses()->exists();
 
+        $course = Course::latest()->where('user_id', auth()->id())->get();
+
         return Inertia::render('Learnings/Index', [
-            'hasCourse' => $hasCourse
+            'hasCourse'         => $hasCourse,
+            'courseCreated'     => $course,
+            'successMessage'    => session('success')
         ]);
     }
 
@@ -28,7 +32,6 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $course = Course::latest()->where('user_id', auth()->id());
         return Inertia::render('Learnings/Create');
     }
 

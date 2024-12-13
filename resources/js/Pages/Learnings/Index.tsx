@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Head, router } from "@inertiajs/react";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Course from './Course';
+import MessagePop from '@/Components/Learning/MessagePop';
 
 
 interface Props {
-    hasCourse: boolean
+    hasCourse:      boolean;
+    courseCreated:  Course[];
+    successMessage: string | null;
 }
 
+const Index: React.FC<Props> = ({ hasCourse, courseCreated, successMessage }) => {
 
-const Index: React.FC<Props> = ({ hasCourse }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if(successMessage) {
+            setIsVisible(true);
+        }
+    }, [successMessage]);
+
+    const handleClose = () => {
+        setIsVisible(false);
+    }
 
     const handleCreateCourse = () => {
         router.visit('/course/create');
@@ -23,6 +38,12 @@ const Index: React.FC<Props> = ({ hasCourse }) => {
             }
         >
             <Head title='Learning' />
+
+            <MessagePop 
+                message={ successMessage || '' }
+                isVisible={ isVisible }
+                onClose={ handleClose }
+            />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -39,14 +60,25 @@ const Index: React.FC<Props> = ({ hasCourse }) => {
                                 </button>
                             </>
                             
-                        )
-                        }
+                        )}
+                        {hasCourse && courseCreated.map((c) => (
+                            <Course key={c.id} course={c} />
+                        ))}
+                        {hasCourse && (
+                            <div>
+                                <button
+                                    onClick={ handleCreateCourse }
+                                    className='btn btn-secondary'
+                                >
+                                    Add New Course
+                                </button>
+                            </div>
+                        )}
                         </div>
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
-        
     )
 }
 

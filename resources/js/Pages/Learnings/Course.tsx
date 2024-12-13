@@ -1,16 +1,30 @@
+import React from "react";
 
-interface IndexProps {
-    course:         string,
-    href:           string,
-    description:    string
+interface Course {
+    id:             number;
+    title:          string;
+    url:            string;
+    platform:       string;
+    category:       string;
+    description:    string;
+    complete:       boolean;
 }
 
-const Course: React.FC<IndexProps> = (props) => {
+interface CourseProps {
+    course: Course
+}
+
+
+const Course: React.FC<CourseProps> = ({ course } ) => {
     return(
         <section className="border-b pb-5 mb-5">
             <div className="mb-10">
-                <h3 className="mb-10"><a className='hover:text-blue-500 font-bold' href={props.href} target='_blank'>{props.course}</a></h3>
-                <p>{props.description}</p>
+                <p>Title: { course.title }</p>
+                <p>Link: { course.url }</p>
+                <p>Description: { course.description }</p>
+                <p>Course from: { course.platform }</p>
+                <p>Category: { course.category }</p>
+                <p>Completed?: { course.complete ? 'Yes' : 'Not yet' }</p>
             </div>
         </section>
     )
