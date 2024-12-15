@@ -5,13 +5,25 @@ import Course from './Course';
 import MessagePop from '@/Components/Learning/MessagePop';
 
 
+interface CourseProps {
+    id:             number;
+    title:          string;
+    url:            string;
+    platform:       string;
+    category:       string;
+    description:    string;
+    complete:       boolean;
+}
+
 interface Props {
     hasCourse:      boolean;
-    courseCreated:  Course[];
+    courseCreated:  CourseProps[];
     successMessage: string | null;
 }
 
 const Index: React.FC<Props> = ({ hasCourse, courseCreated, successMessage }) => {
+
+    const [courses, setCourses] = useState<CourseProps[]>(courseCreated);
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -23,10 +35,18 @@ const Index: React.FC<Props> = ({ hasCourse, courseCreated, successMessage }) =>
 
     const handleClose = () => {
         setIsVisible(false);
-    }
+    };
 
     const handleCreateCourse = () => {
         router.visit('/course/create');
+    };
+
+    const handleDeleteCourse = (courseId: number) => {
+            router.delete(`/course/${courseId}`, {
+                onSuccess: () => {
+                    setCourses((prevCourses) => prevCourses.filter((course) => course.id !== courseId));
+                }
+            });
     }
 
     return (
@@ -62,7 +82,7 @@ const Index: React.FC<Props> = ({ hasCourse, courseCreated, successMessage }) =>
                             
                         )}
                         {hasCourse && courseCreated.map((c) => (
-                            <Course key={c.id} course={c} />
+                            <Course key={ c.id } course={ c } onDelete={ handleDeleteCourse } />
                         ))}
                         {hasCourse && (
                             <div>

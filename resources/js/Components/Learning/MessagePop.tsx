@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface MessagePopProps {
     message:    string;
@@ -6,37 +6,45 @@ interface MessagePopProps {
     onClose:    () => void
 }
 
-const MessagePop: React.FC<MessagePopProps> = ({ message, isVisible, onClose }) => {
+const MessagePop: React.FC<MessagePopProps> = ({ message, isVisible, onClose}) => {
 
-    if(!isVisible) return null;
+    const [fadeOut, setFadeOut] = useState(false);
+
+    useEffect(() => {
+        if (isVisible) {
+            const timer = setTimeout(() => {
+                setFadeOut(true);
+            }, 4000);
+
+            return () => clearTimeout(timer);
+        }else {
+            setFadeOut(false);
+        }
+    }, [isVisible]);
+
+    useEffect(() => {
+        if (fadeOut) {
+            const timer = setTimeout(() => {
+                onClose();
+            }, 500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [fadeOut, onClose]);
+
+    if(!isVisible && !fadeOut) return null;
 
     return(
-        <div className="card bg-base-100 w-full shadow-xl">
-            <div className="card-body">
-                <div className="card-actions justify-end">
-                    <button 
-                        className="btn btn-square btn-sm"
-                        onClick={onClose}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M6 18L18 6M6 6l12 12" 
-                        />
-                        </svg>
-                    </button>
-                </div>
-                <p className="text-center text-green-600">{message}</p>
-            </div>
-        </div>
+        <aside
+            className={ `fixed bottom-4 end-4 z-50 flex items-center justify-center gap-4 rounded-lg bg-black px-5 py-3 text-white 
+                transition-opacity duration-500 ease-out 
+                ${fadeOut ? 'opacity-0' : 'opacity-100'}` }
+        >
+            <p>
+                {message}
+            </p>
+        </aside>
+
     )
 }
 

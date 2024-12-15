@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/learning', [CourseController::class, 'index'])->name('learning.index');
     Route::get('/course/create', [CourseController::class, 'create'])->name('learning.create');
     Route::post('/course', [CourseController::class, 'store'])->name('learning.store');
+    Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
 });
 
 require __DIR__.'/auth.php';

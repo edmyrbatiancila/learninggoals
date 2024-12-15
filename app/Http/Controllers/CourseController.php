@@ -88,8 +88,16 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $course = Course::findOrFail($id);
+
+        if ($course->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unathorized'], 403);
+        }
+
+        $course->delete();
+
+        return redirect()->route('learning.index')->with('success', 'Course deleted successfully!');
     }
 }
