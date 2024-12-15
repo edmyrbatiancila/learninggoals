@@ -50,11 +50,11 @@ class CourseController extends Controller
 
         $course = new Course([
             'user_id'       => auth()->id(),
-            'title'         => $validated['title'],
+            'title'         => ucwords($validated['title']),
             'url'           => $validated['url'],
             'platform'      => $validated['platform'],
             'category'      => $validated['category'],
-            'description'   => $validated['description']
+            'description'   => ucfirst($validated['description'])
         ]);
 
         $course->save();
